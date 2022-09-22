@@ -3,6 +3,21 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 
+def get_mae(max_leaf_nodes, train_X, val_X, train_y, val_y):
+    """
+    Calculates the Mean Absolute Error for our model
+    max_leaf_nodes - The maximum number of nodes we want to search
+    train_X - Features from training set
+    val_X - Features from validation set
+    train_y - target from training set
+    val_y - target from validation set
+    """
+    model = DecisionTreeRegressor(max_leaf_nodes=max_leaf_nodes, random_state=0)
+    model.fit(train_X, train_y)
+    preds_val = model.predict(val_X)
+    mae = mean_absolute_error(val_y, preds_val)
+    return mae
+
 file_src = '../data/melb_data.csv'
 df = pd.read_csv(file_src)
 
@@ -37,3 +52,9 @@ model.fit(train_X, train_y)
 
 val_predictions = model.predict(val_X)
 print(f'MAE: {mean_absolute_error(val_y, val_predictions)}')
+
+# Compare MAE with differing values of max_leaf_nodes
+for max_leaf_node in [5, 50, 500, 5000]:
+    temp = get_mae(max_leaf_node, train_X, val_X, train_y, val_y)
+    print("Max leaf nodes: %d  \t\t Mean Absolute Error:  %d" % (max_leaf_node, 
+                                                                temp))
