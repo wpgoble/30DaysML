@@ -73,3 +73,20 @@ def compute_means(cluster_idx, K, X):
         centroids[i] = np.mean(points, axis = 0)
     
     return centroids
+
+def run_Kmeans(K, X, max_iterations=500):
+    """
+    Runs the K-means algorithm and computes the final clusters
+    """
+    centroids = initialize_random_centroids(K, X)
+
+    for _ in range(max_iterations):
+        clusters = create_clusters(centroids, K, X)
+        previous_centroid = centroids
+        centroids = compute_means(clusters, K, X)
+        diff = previous_centroid - centroids
+
+        if not diff.any():
+            return clusters
+    
+    return clusters
