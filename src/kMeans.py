@@ -49,7 +49,7 @@ def closest_centroid(x, centroids, K):
     # returns the index of the lowest distance
     return np.argmin(distances)
 
-def create_centroid(centroids, K, X):
+def create_clusters(centroids, K, X):
     """
     Returns an array of cluster indices for all the data samples
     """
@@ -60,3 +60,16 @@ def create_centroid(centroids, K, X):
         cluster_idx[i] = closest_centroid(X[i], centroids, K)
     
     return cluster_idx
+
+def compute_means(cluster_idx, K, X):
+    """
+    Computes and returns the new centroids of the clusters
+    """
+    _, n = np.shape(X)
+    centroids = np.empty((K, n))
+
+    for i in range(K):
+        points = X[cluster_idx == i]
+        centroids[i] = np.mean(points, axis = 0)
+    
+    return centroids
