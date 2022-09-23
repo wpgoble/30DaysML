@@ -1,3 +1,5 @@
+from sklearn import datasets
+
 """
 K-means clustering is an unsupervised learning algorithm, which groups an 
 unlabeled dataset into different clusters. The "K" refers to the number of 
@@ -90,3 +92,10 @@ def run_Kmeans(K, X, max_iterations=500):
             return clusters
     
     return clusters
+
+def main():
+    X, y = datasets.make_blobs()
+    y_preds = run_Kmeans(3, X)
+
+if '__name__' == '__main__':
+    main()
