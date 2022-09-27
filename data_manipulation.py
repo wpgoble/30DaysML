@@ -24,4 +24,9 @@ def train_test_split(X, y, test_size = 0.5, shuffle = True, seed = None):
 
     return X_train, X_test, y_train, y_test
 
+def normalize(X, axis = -1, order = 2):
+    """ Implements L2 normalization to dataset """
+    l2 = np.atleast_1d(np.linalg.norm(X, order, axis))
+    l2[l2 == 0] = 1
 
+    return X / np.expand_dims(l2, axis)
