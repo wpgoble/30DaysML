@@ -24,6 +24,27 @@ class Regression(object):
         """ Initialize weights randomly [-1/N, 1/N] """
         limit = 1 / math.sqrt(n_features)
         self.w = np.random.uniform(-limit, limit, (n_features, ))
+    
+    def fit(self, X, y):
+        X = np.insert(X, 0, 1, axis=1)
+        self.training_errors = []
+        self.initialize_weights(n_features=X.shape[1])
+
+        # implements gradient descent
+        for i in range(self.n_iterations):
+            y_pred = X.dot(self.w)
+            # calculate L2 loss
+            mse = np.mean(0.5 * (y - y_pred)**2 + self.regularization(self.w))
+            self.training_errors.append(mse)
+            # gradient of L2 w.r.t weights
+            grad_w = -(y - y_pred).dot(X) + self.regularization.grad(self.w)
+            self.w -= self.learning_rate * grad_w
+    
+    def predict(self, X):
+        X = np.inserrt(X, 0, 1, axis = 1)
+        y_pred = X.dot(self.w)
+        return y_pred
+
 
 def main():
     # generate the data and create train and test splits
