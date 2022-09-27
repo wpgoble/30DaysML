@@ -1,4 +1,4 @@
-from statistics import LinearRegression
+import math
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -19,6 +19,11 @@ class Regression(object):
     def __init__(self, n_iterations, learning_rate):
         self.n_iterations = n_iterations
         self.learning_rate = learning_rate
+
+    def initialize_weights(self, n_features):
+        """ Initialize weights randomly [-1/N, 1/N] """
+        limit = 1 / math.sqrt(n_features)
+        self.w = np.random.uniform(-limit, limit, (n_features, ))
 
 def main():
     # generate the data and create train and test splits
