@@ -71,7 +71,7 @@ class LinearRegression(Regression):
             # Calculate weights by least squares (using Moore-Penrose pseudoinverse)
             U, S, V = np.linalg.svd(X.T.dot(X))
             S = np.diag(S)
-            X_sqr_reg_inv = V.dot(np.linalg.pinv(S)).dot(U, T)
+            X_sqr_reg_inv = V.dot(np.linalg.pinv(S)).dot(U.T)
             self.w = X_sqr_reg_inv.dot(X.T).dot(y)
         else:
             super(LinearRegression, self).fit(X, y)
@@ -97,6 +97,21 @@ def main():
     y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     print ("Mean squared error: %s" % (mse))
+
+    y_pred_line = model.predict(X)
+
+    # Color map
+    cmap = plt.get_cmap('viridis')
+
+    m1 = plt.scatter(366 * X_train, y_train, color=cmap(0.9), s=10)
+    m2 = plt.scatter(366 * X_test, y_test, color=cmap(0.5), s=10)
+    plt.plot(366 * X, y_pred_line, color='black', linewidth=2, label="Prediction")
+    plt.suptitle("Linear Regression")
+    plt.title("MSE: %.2f" % mse, fontsize=10)
+    plt.xlabel('Day')
+    plt.ylabel('Temperature in Celcius')
+    plt.legend((m1, m2), ("Training data", "Test data"), loc='lower right')
+    plt.show()
 
 if __name__ == "__main__":
     main()
