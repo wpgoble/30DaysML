@@ -26,3 +26,28 @@ class DecisionNode():
         self.true_branch = true_branch    # 'Left' subtree
         self.false_branch = false_branch  # 'Right' subtree
 
+class DecisionTree(object):
+    """
+    Super class of RegressionTree and ClassificationTree.
+    
+    Parameters:
+    -----------
+    min_samples_split: int
+        The minimum number of samples needed to make a split when building a tree.
+    min_impurity: float
+        The minimum impurity required to split the tree further.
+    max_depth: int
+        The maximum depth of a tree.
+    loss: function
+        Loss function that is used for Gradient Boosting models to calculate impurity.
+    """
+    def __init__(self, min_sample_split = 2, min_impurity = 1e-7, 
+                max_depth = float("inf"), loss = None):
+        self.root = None
+        self.min_sample_split = min_sample_split
+        self.min_impurity = min_impurity
+        self.max_depth = max_depth
+        self._impurity_calculation = None
+        self._leaf_value_calculation = None
+        self.one_dim = None
+        self.loss = loss
